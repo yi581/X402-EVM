@@ -1,6 +1,6 @@
-# X402 Insurance Protocol - EVM Implementation
+# x402: BNTR Protocol - EVM Implementation
 
-> Zero-Fee Insurance for Web3 API Payments on EVM-Compatible Chains
+> Refund, Rewired — Autonomous Trust for the Micropayment Age
 
 Smart contract implementation for Ethereum, Base, Optimism, Arbitrum, and other EVM chains.
 
