@@ -21,7 +21,7 @@
     "eip712"
   ],
   "author": "",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "engines": {
     "node": ">=18",
     "pnpm": ">=8"
