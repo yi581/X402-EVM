@@ -1,0 +1,11 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts for X402 Bonded Escrow",
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "deploy": "forge script script/Deploy.s.sol:DeployBondedEscrow --rpc-url ${RPC_URL} --broadcast",
+    "deploy:local": "forge script script/Deploy.s.sol:DeployBondedEscrow --rpc-url http://localhost:8545 --broadcast"
+  }
+}

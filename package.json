@@ -1,0 +1,32 @@
+{
+  "name": "x402-refunds-poc",
+  "version": "1.0.0",
+  "description": "X402 Autonomous Refund Mechanism - Bonded Escrow POC",
+  "private": true,
+  "workspaces": [
+    "contracts",
+    "services"
+  ],
+  "scripts": {
+    "facilitator": "pnpm --filter services run facilitator",
+    "server": "pnpm --filter services run server",
+    "client": "pnpm --filter services run client",
+    "dev": "pnpm --filter services run dev"
+  },
+  "keywords": [
+    "x402",
+    "refund",
+    "blockchain",
+    "escrow",
+    "eip712"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "devDependencies": {
+    "patch-package": "^8.0.1"
+  }
+}

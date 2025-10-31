@@ -1,0 +1,33 @@
+{
+  "name": "services",
+  "version": "1.0.0",
+  "description": "TypeScript services for X402 refund system",
+  "type": "module",
+  "scripts": {
+    "facilitator": "tsx src/facilitator.ts",
+    "server": "tsx src/server.ts",
+    "client": "tsx src/client.ts",
+    "client:insurance": "tsx src/client-with-insurance.ts",
+    "relayer": "tsx src/relayer.ts",
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@x402-sovereign/core": "^0.4.0",
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "ethers": "^6.15.0",
+    "express": "^4.18.2",
+    "viem": "^2.7.0",
+    "x402": "^0.7.1",
+    "x402-axios": "^0.7.0",
+    "x402-express": "^0.7.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.9.3"
+  }
+}
