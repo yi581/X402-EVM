@@ -1,0 +1,15 @@
+{
+  "network": "Base Sepolia",
+  "chainId": 84532,
+  "timestamp": "2025-11-02T08:48:21.142Z",
+  "deployer": "0xFC8BFfD6BBFc9CBCA95312F5bC3d5463c3cD3A71",
+  "contracts": {
+    "providerFactory": "0xbed30550aB282bED6A6ED57F23E9C99FAd8b7b76",
+    "insuranceV8": "0x72486eF40BB3729298369d608de85c612adb223e",
+    "usdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+  },
+  "usage": {
+    "step1": "await usdc.approve(\"0xbed30550aB282bED6A6ED57F23E9C99FAd8b7b76\", amount)",
+    "step2": "await factory.createProvider(amount)"
+  }
+}

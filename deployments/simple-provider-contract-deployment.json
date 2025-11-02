@@ -1,0 +1,27 @@
+{
+  "network": "Base Sepolia",
+  "chainId": 84532,
+  "timestamp": "2025-11-02T08:30:00.000Z",
+  "deployer": "0xFC8BFfD6BBFc9CBCA95312F5bC3d5463c3cD3A71",
+  "contracts": {
+    "simpleProviderContract": "0x495D1B6A80d27D442619F0b63db9cAF3bA46a89b",
+    "insuranceV8": "0x72486eF40BB3729298369d608de85c612adb223e",
+    "usdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+  },
+  "status": {
+    "deployed": true,
+    "registered": false,
+    "reason": "Insufficient USDC balance (0.072 USDC) to complete registration test"
+  },
+  "verification": {
+    "contractCode": "verified on blockchain",
+    "canCallRegister": true,
+    "msgSenderWillBe": "0x495D1B6A80d27D442619F0b63db9cAF3bA46a89b"
+  },
+  "notes": [
+    "SimpleProviderContract successfully deployed",
+    "Contract can be used by external protocols as Provider",
+    "To complete registration: transfer USDC to contract and call registerAsProvider()",
+    "Contract address will be recorded as Provider in Insurance V8"
+  ]
+}

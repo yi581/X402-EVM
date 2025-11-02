@@ -11,7 +11,10 @@
     "facilitator": "pnpm --filter services run facilitator",
     "server": "pnpm --filter services run server",
     "client": "pnpm --filter services run client",
-    "dev": "pnpm --filter services run dev"
+    "dev": "pnpm --filter services run dev",
+    "test:v7": "node scripts/test-v7-comprehensive.js",
+    "deploy:v7": "node scripts/deploy-v7.js",
+    "upgrade:v7": "node scripts/update-to-v7.js"
   },
   "keywords": [
     "x402",

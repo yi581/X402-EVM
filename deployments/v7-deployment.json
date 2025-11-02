@@ -1,0 +1,16 @@
+{
+  "network": "base-sepolia",
+  "contractName": "X402InsuranceV7",
+  "contractAddress": "0x45bD5CBD666E59936D459582b04250379342F43B",
+  "deployer": "0xFC8BFfD6BBFc9CBCA95312F5bC3d5463c3cD3A71",
+  "usdcToken": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "deployedAt": "2025-11-02T06:06:15.115Z",
+  "transactionHash": "0x434fa1c4b76b148d0235179c529c26b5e9e57023f667ceacabf7fe4938ffa2ee",
+  "features": [
+    "严格容量控制 - 只接受有充足资金保证的索赔",
+    "实时可用余额计算 - 考虑已锁定金额",
+    "防止负余额 - 不允许超额锁定",
+    "改进的资金分配追踪",
+    "增强的风险评分系统"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "network": "base-sepolia",
+  "contractName": "X402InsuranceV8",
+  "contractAddress": "0x72486eF40BB3729298369d608de85c612adb223e",
+  "deployer": "0xFC8BFfD6BBFc9CBCA95312F5bC3d5463c3cD3A71",
+  "usdcToken": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "deployedAt": "2025-11-02T06:49:53.923Z",
+  "transactionHash": "0x053bcd150321fc4a3f79d3bc4d94e2d7e5229108a4def0877706ff837b6b3c49",
+  "features": [
+    "比例赔付机制 - 资金不足时按比例支付",
+    "延迟补偿系统 - 记录未付部分待后续补偿",
+    "自动补偿触发 - Provider充值时自动补偿",
+    "继续比例分配 - 补偿时继续按比例而非先到先得",
+    "池永不为负 - 保持系统稳定性"
+  ],
+  "improvements": [
+    "解决了V7完全拒绝索赔的问题",
+    "客户至少能获得部分赔付",
+    "Provider充值后自动补偿所有待付索赔",
+    "公平的比例分配机制",
+    "不会侵占其他Provider的资金"
+  ]
+}

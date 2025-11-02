@@ -1,0 +1,68 @@
+{
+  "timestamp": "2025-11-02T03:42:44.382Z",
+  "contract": "0x1Be686083B736C387606d37d3b1F8A11dBd79EF6",
+  "network": "base-sepolia",
+  "results": {
+    "passed": 5,
+    "failed": 5,
+    "scenarios": [
+      {
+        "name": "Provider Registration & Deposit",
+        "status": "PASS"
+      },
+      {
+        "name": "Successful Service - No Insurance Claim",
+        "status": "PASS"
+      },
+      {
+        "name": "Failed Service - Auto Refund (No Dispute)",
+        "status": "FAIL",
+        "error": "execution reverted: \"Still in dispute period\" (action=\"estimateGas\", data=\"0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000175374696c6c20696e206469737075746520706572696f64000000000000000000\", reason=\"Still in dispute period\", transaction={ \"data\": \"0xb432b061e3259aa5fb39c71448a14ed78ad68f44947a37991fb370041ffb0c0a9fe7ed9b\", \"from\": \"0xE1C284A9D49be3D7d8052c1cb41c70F2475A3774\", \"to\": \"0x1Be686083B736C387606d37d3b1F8A11dBd79EF6\" }, invocation=null, revert={ \"args\": [ \"Still in dispute period\" ], \"name\": \"Error\", \"signature\": \"Error(string)\" }, code=CALL_EXCEPTION, version=6.15.0)"
+      },
+      {
+        "name": "Failed Service - Provider Disputes",
+        "status": "FAIL",
+        "error": "execution reverted: \"Only provider can dispute\" (action=\"estimateGas\", data=\"0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000194f6e6c792070726f76696465722063616e206469737075746500000000000000\", reason=\"Only provider can dispute\", transaction={ \"data\": \"0xe300ff13cf2b7e6505d0f461cf6444c12db17955e415f43d3daf0a39d03f727ee0de20170000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000004950726f647563742064656c69766572656420636f72726563746c792e20436c69656e7420636f6e6669726d656420726563656970742076696120656d61696c2061742031343a33302e0000000000000000000000000000000000000000000000\", \"from\": \"0xb5BaE0421F3680Ee5d39b8a13442eC1f2635Ab7c\", \"to\": \"0x1Be686083B736C387606d37d3b1F8A11dBd79EF6\" }, invocation=null, revert={ \"args\": [ \"Only provider can dispute\" ], \"name\": \"Error\", \"signature\": \"Error(string)\" }, code=CALL_EXCEPTION, version=6.15.0)"
+      },
+      {
+        "name": "Arbitration - Support Client",
+        "status": "FAIL",
+        "error": "execution reverted: \"Only provider can dispute\" (action=\"estimateGas\", data=\"0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000194f6e6c792070726f76696465722063616e206469737075746500000000000000\", reason=\"Only provider can dispute\", transaction={ \"data\": \"0xe300ff1366d2a9c56aa166b2a6789476fdf7a26ec56685d8a8637f428271f2bbbf8d66350000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000001453657276696365207761732070726f7669646564000000000000000000000000\", \"from\": \"0xb5BaE0421F3680Ee5d39b8a13442eC1f2635Ab7c\", \"to\": \"0x1Be686083B736C387606d37d3b1F8A11dBd79EF6\" }, invocation=null, revert={ \"args\": [ \"Only provider can dispute\" ], \"name\": \"Error\", \"signature\": \"Error(string)\" }, code=CALL_EXCEPTION, version=6.15.0)"
+      },
+      {
+        "name": "Arbitration - Support Provider",
+        "status": "FAIL",
+        "error": "Claim not cancelled"
+      },
+      {
+        "name": "Multiple Simultaneous Claims",
+        "status": "PASS"
+      },
+      {
+        "name": "Provider Partial Withdrawal",
+        "status": "PASS"
+      },
+      {
+        "name": "Edge Case - Claim After Provider Deactivation Attempt",
+        "status": "PASS"
+      },
+      {
+        "name": "Different Dispute Period Tiers",
+        "status": "FAIL",
+        "error": "execution reverted: \"Insufficient provider balance\" (action=\"estimateGas\", data=\"0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001d496e73756666696369656e742070726f76696465722062616c616e6365000000\", reason=\"Insufficient provider balance\", transaction={ \"data\": \"0x6f5aff98fbfb6ee8ed3d5fb4929d007ae419ee181f5fa83bdb0eb252b2080add041aeac4000000000000000000000000b5bae0421f3680ee5d39b8a13442ec1f2635ab7c00000000000000000000000000000000000000000000000000000000004c4b400000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000001254657374696e6720536d616c6c20746965720000000000000000000000000000\", \"from\": \"0xE1C284A9D49be3D7d8052c1cb41c70F2475A3774\", \"to\": \"0x1Be686083B736C387606d37d3b1F8A11dBd79EF6\" }, invocation=null, revert={ \"args\": [ \"Insufficient provider balance\" ], \"name\": \"Error\", \"signature\": \"Error(string)\" }, code=CALL_EXCEPTION, version=6.15.0)"
+      }
+    ]
+  },
+  "finalState": {
+    "provider": {
+      "address": "0xb5BaE0421F3680Ee5d39b8a13442eC1f2635Ab7c",
+      "active": true,
+      "poolBalance": "5.0",
+      "totalLocked": "4.794"
+    },
+    "balances": {
+      "client": "2.0",
+      "treasury": "0.02"
+    }
+  }
+}

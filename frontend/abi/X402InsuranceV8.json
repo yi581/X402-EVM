@@ -1,0 +1,253 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "address", "name": "_usdcToken", "type": "address" },
+        { "internalType": "address", "name": "_owner", "type": "address" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "name": "provider", "type": "address" },
+        { "indexed": false, "name": "amount", "type": "uint256" }
+      ],
+      "name": "ProviderRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "name": "provider", "type": "address" },
+        { "indexed": false, "name": "amount", "type": "uint256" }
+      ],
+      "name": "ProviderDeposited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "name": "commitment", "type": "bytes32" },
+        { "indexed": true, "name": "client", "type": "address" },
+        { "indexed": true, "name": "provider", "type": "address" },
+        { "indexed": false, "name": "amount", "type": "uint256" }
+      ],
+      "name": "ClaimInitiated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "name": "commitment", "type": "bytes32" },
+        { "indexed": false, "name": "paidAmount", "type": "uint256" },
+        { "indexed": false, "name": "pendingAmount", "type": "uint256" }
+      ],
+      "name": "ClaimExecuted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "name": "commitment", "type": "bytes32" },
+        { "indexed": true, "name": "client", "type": "address" },
+        { "indexed": false, "name": "amount", "type": "uint256" }
+      ],
+      "name": "CompensationPaid",
+      "type": "event"
+    },
+    {
+      "inputs": [{ "name": "amount", "type": "uint256" }],
+      "name": "registerOrReactivate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "name": "amount", "type": "uint256" }],
+      "name": "depositAdditional",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "name": "amount", "type": "uint256" }],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdrawAllAndDeactivate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "name": "commitment", "type": "bytes32" },
+        { "name": "provider", "type": "address" },
+        { "name": "amount", "type": "uint256" },
+        { "name": "reason", "type": "uint8" }
+      ],
+      "name": "initiateClaim",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "name": "commitment", "type": "bytes32" }],
+      "name": "executeClaim",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "name": "commitment", "type": "bytes32" },
+        { "name": "evidence", "type": "string" }
+      ],
+      "name": "disputeClaim",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "name": "provider", "type": "address" }],
+      "name": "getProviderInfo",
+      "outputs": [
+        { "name": "isActive", "type": "bool" },
+        { "name": "poolBalance", "type": "uint256" },
+        { "name": "totalLocked", "type": "uint256" },
+        { "name": "successfulServices", "type": "uint256" },
+        { "name": "failedServices", "type": "uint256" },
+        { "name": "tier", "type": "uint8" },
+        { "name": "registeredAt", "type": "uint256" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "name": "commitment", "type": "bytes32" }],
+      "name": "getClaimInfo",
+      "outputs": [
+        { "name": "client", "type": "address" },
+        { "name": "provider", "type": "address" },
+        { "name": "requestedAmount", "type": "uint256" },
+        { "name": "paidAmount", "type": "uint256" },
+        { "name": "pendingAmount", "type": "uint256" },
+        { "name": "initiatedAt", "type": "uint256" },
+        { "name": "disputeDeadline", "type": "uint256" },
+        { "name": "reason", "type": "uint8" },
+        { "name": "status", "type": "uint8" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "name": "provider", "type": "address" }],
+      "name": "getProviderPendingCompensations",
+      "outputs": [
+        { "name": "commitments", "type": "bytes32[]" },
+        { "name": "amounts", "type": "uint256[]" },
+        { "name": "totalAmount", "type": "uint256" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "name": "provider", "type": "address" },
+        { "name": "serviceAmount", "type": "uint256" }
+      ],
+      "name": "canAcceptService",
+      "outputs": [
+        { "name": "canAccept", "type": "bool" },
+        { "name": "reason", "type": "string" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalProviderPools",
+      "outputs": [{ "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "emergencyPool",
+      "outputs": [{ "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "platformInsuranceFund",
+      "outputs": [{ "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalPendingCompensations",
+      "outputs": [{ "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MIN_POOL_BALANCE",
+      "outputs": [{ "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PENALTY_RATE",
+      "outputs": [{ "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MAX_EXPOSURE_RATIO",
+      "outputs": [{ "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [{ "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "usdcToken",
+      "outputs": [{ "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "name": "amount", "type": "uint256" }],
+      "name": "fundEmergencyPool",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "name": "amount", "type": "uint256" }],
+      "name": "fundPlatformInsurance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "contractAddress": "0x72486eF40BB3729298369d608de85c612adb223e",
+  "network": "base-sepolia"
+}

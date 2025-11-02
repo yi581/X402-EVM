@@ -1,0 +1,20 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "contract": {
+    "address": "0x91b9DfF6f8Dd83e98D2A19115fC8e4a1316515F8",
+    "name": "X402InsuranceV5",
+    "version": "5.0"
+  },
+  "usdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "treasury": "0xFC8BFfD6BBFc9CBCA95312F5bC3d5463c3cD3A71",
+  "deployer": "0xFC8BFfD6BBFc9CBCA95312F5bC3d5463c3cD3A71",
+  "deployedAt": "2025-11-02T04:38:00.000Z",
+  "transactionHash": "0x4e845bd8d430ea2d97008f1edc48b26be9ef580ea4f9be75f07a64752fb8861b",
+  "features": [
+    "明确覆盖范围 - 只赔偿未交付",
+    "支持Provider重新激活",
+    "改进的退出和重新加入机制",
+    "枚举类型限制索赔原因"
+  ]
+}

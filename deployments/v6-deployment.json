@@ -1,0 +1,19 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "contractAddress": "0xeAC541fC5254d5B52b4e8259922891F59d369338",
+  "contractName": "X402InsuranceV6",
+  "features": [
+    "Layered Insurance Pools",
+    "Service Capacity Limits",
+    "Pro-rata Claims Distribution",
+    "Risk Scoring System",
+    "Emergency Pool",
+    "Platform Insurance Fund"
+  ],
+  "deploymentTx": "0x1b2dc9a26b92165004f0963d75751581612826c33e8d7ab57d6feacf754a7c3f",
+  "deployer": "0xFC8BFfD6BBFc9CBCA95312F5bC3d5463c3cD3A71",
+  "usdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "timestamp": "2025-11-02T05:18:13.930Z",
+  "explorer": "https://sepolia.basescan.org/address/0xeAC541fC5254d5B52b4e8259922891F59d369338"
+}

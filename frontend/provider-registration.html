@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X402 Provider注册 - 一键开通保险服务</title>
+    <!-- 修复ethers加载问题，使用更稳定的CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .status-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-label {
+            color: #666;
+        }
+
+        .status-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .tier-badges {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .tier-badge {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .tier-badge.active {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: scale(1.1);
+        }
+
+        .tier-icon {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .tier-name {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .tier-amount {
+            font-size: 11px;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .amount-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .amount-btn {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .amount-btn:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .amount-btn.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 12px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #90caf9;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            color: #388e3c;
+            border: 1px solid #81c784;
+        }
+
+        .alert-error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            color: #f57c00;
+            border: 1px solid #ffcc80;
+        }
+
+        .steps {
+            margin: 25px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            opacity: 0.4;
+            transition: opacity 0.3s;
+        }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        .step.completed {
+            opacity: 1;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .step.active .step-number {
+            background: #667eea;
+        }
+
+        .step.completed .step-number {
+            background: #4caf50;
+        }
+
+        .step-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .step.active .step-text {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .provider-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .provider-info h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .provider-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .provider-stat-value {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ X402 Provider注册</h1>
+        <p class="subtitle">一键开通保险服务，让您的API更可信</p>
+
+        <!-- 连接钱包部分 -->
+        <div id="connectSection">
+            <div class="alert alert-info">
+                👋 欢迎！请先连接您的钱包以开始注册流程
+            </div>
+
+            <button id="connectBtn" class="btn btn-primary">
+                连接钱包 (MetaMask)
+            </button>
+
+            <div class="steps">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-text">连接钱包</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">选择充值金额</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">完成注册</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 注册部分 -->
+        <div id="registerSection" class="hidden">
+            <div class="status-card">
+                <div class="status-item">
+                    <span class="status-label">钱包地址</span>
+                    <span class="status-value" id="walletAddress">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">网络</span>
+                    <span class="status-value" id="networkName">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">USDC余额</span>
+                    <span class="status-value" id="usdcBalance">-</span>
+                </div>
+            </div>
+
+            <div class="tier-badges">
+                <div class="tier-badge" data-tier="bronze">
+                    <div class="tier-icon">🥉</div>
+                    <div class="tier-name">Bronze</div>
+                    <div class="tier-amount">100-500</div>
+                </div>
+                <div class="tier-badge" data-tier="silver">
+                    <div class="tier-icon">🥈</div>
+                    <div class="tier-name">Silver</div>
+                    <div class="tier-amount">500-1000</div>
+                </div>
+                <div class="tier-badge" data-tier="gold">
+                    <div class="tier-icon">🥇</div>
+                    <div class="tier-name">Gold</div>
+                    <div class="tier-amount">1000-5000</div>
+                </div>
+                <div class="tier-badge" data-tier="platinum">
+                    <div class="tier-icon">💎</div>
+                    <div class="tier-name">Platinum</div>
+                    <div class="tier-amount">5000+</div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>充值金额 (USDC)</label>
+                <input type="number" id="depositAmount" placeholder="最低100 USDC" min="100" value="100">
+                <div class="amount-buttons">
+                    <button class="amount-btn" data-amount="100">100</button>
+                    <button class="amount-btn" data-amount="500">500</button>
+                    <button class="amount-btn" data-amount="1000">1000</button>
+                    <button class="amount-btn" data-amount="5000">5000</button>
+                </div>
+            </div>
+
+            <button id="approveBtn" class="btn btn-primary">
+                第一步：授权USDC
+            </button>
+
+            <button id="registerBtn" class="btn btn-primary hidden">
+                第二步：注册并充值
+            </button>
+
+            <button id="disconnectBtn" class="btn btn-secondary">
+                断开钱包
+            </button>
+        </div>
+
+        <!-- 已注册Provider信息 -->
+        <div id="providerSection" class="hidden">
+            <div class="provider-info">
+                <h3>✅ 您已是认证Provider</h3>
+                <div class="provider-stat">
+                    <span>认证等级</span>
+                    <span class="provider-stat-value" id="providerTier">-</span>
+                </div>
+                <div class="provider-stat">
+                    <span>池内余额</span>
+                    <span class="provider-stat-value" id="poolBalance">-</span>
+                </div>
+                <div class="provider-stat">
+                    <span>可用余额</span>
+                    <span class="provider-stat-value" id="availableBalance">-</span>
+                </div>
+                <div class="provider-stat">
+                    <span>成功率</span>
+                    <span class="provider-stat-value" id="successRate">-</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>追加充值 (USDC)</label>
+                <input type="number" id="topupAmount" placeholder="输入金额" min="1" value="100">
+            </div>
+
+            <button id="topupBtn" class="btn btn-primary">
+                追加充值
+            </button>
+
+            <button id="withdrawBtn" class="btn btn-secondary">
+                提取资金
+            </button>
+        </div>
+
+        <!-- 消息提示 -->
+        <div id="messageBox"></div>
+    </div>
+
+    <script>
+        // 配置
+        const CONFIG = {
+            // Base Sepolia配置
+            chainId: '0x14a34', // 84532 in hex
+            chainName: 'Base Sepolia',
+            rpcUrl: 'https://sepolia.base.org',
+
+            // 合约地址（需要替换为实际部署的地址）
+            INSURANCE_ADDRESS: '0x...', // TODO: 替换为实际地址
+            USDC_ADDRESS: '0x036CbD53842c5426634e7929541eC2318f3dCF7e',
+
+            // ABI (简化版)
+            INSURANCE_ABI: [
+                "function registerAndDeposit(uint256 amount)",
+                "function deposit(uint256 amount)",
+                "function withdraw(uint256 amount)",
+                "function getProviderInfo(address provider) view returns (uint256 poolBalance, uint256 availableBalance, uint256 lockedBalance, uint8 tier, bool isActive, uint256 successRate)",
+                "function getProviderStats(address provider) view returns (uint256 totalDeposited, uint256 totalWithdrawn, uint256 totalPenalties, uint256 successCount, uint256 failureCount, uint256 registeredAt, uint256 lastActivityAt)"
+            ],
+
+            USDC_ABI: [
+                "function balanceOf(address owner) view returns (uint256)",
+                "function approve(address spender, uint256 amount) returns (bool)",
+                "function decimals() view returns (uint8)"
+            ]
+        };
+
+        // 全局变量
+        let provider = null;
+        let signer = null;
+        let insuranceContract = null;
+        let usdcContract = null;
+        let currentAccount = null;
+
+        // 工具函数
+        function showMessage(message, type = 'info') {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.className = `alert alert-${type}`;
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 5000);
+        }
+
+        function formatAddress(address) {
+            return `${address.slice(0, 6)}...${address.slice(-4)}`;
+        }
+
+        function updateTierBadge(amount) {
+            const badges = document.querySelectorAll('.tier-badge');
+            badges.forEach(badge => badge.classList.remove('active'));
+
+            if (amount >= 5000) {
+                document.querySelector('[data-tier="platinum"]').classList.add('active');
+            } else if (amount >= 1000) {
+                document.querySelector('[data-tier="gold"]').classList.add('active');
+            } else if (amount >= 500) {
+                document.querySelector('[data-tier="silver"]').classList.add('active');
+            } else if (amount >= 100) {
+                document.querySelector('[data-tier="bronze"]').classList.add('active');
+            }
+        }
+
+        // 连接钱包
+        async function connectWallet() {
+            try {
+                if (!window.ethereum) {
+                    showMessage('请安装MetaMask钱包!', 'error');
+                    return;
+                }
+
+                // 请求连接
+                const accounts = await window.ethereum.request({
+                    method: 'eth_requestAccounts'
+                });
+
+                currentAccount = accounts[0];
+
+                // 切换到Base Sepolia网络
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: CONFIG.chainId }]
+                    });
+                } catch (switchError) {
+                    // 网络不存在，添加网络
+                    if (switchError.code === 4902) {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [{
+                                chainId: CONFIG.chainId,
+                                chainName: CONFIG.chainName,
+                                rpcUrls: [CONFIG.rpcUrl],
+                                nativeCurrency: {
+                                    name: 'ETH',
+                                    symbol: 'ETH',
+                                    decimals: 18
+                                },
+                                blockExplorerUrls: ['https://sepolia.basescan.org']
+                            }]
+                        });
+                    }
+                }
+
+                // 初始化ethers
+                provider = new ethers.providers.Web3Provider(window.ethereum);
+                signer = provider.getSigner();
+
+                // 初始化合约
+                insuranceContract = new ethers.Contract(
+                    CONFIG.INSURANCE_ADDRESS,
+                    CONFIG.INSURANCE_ABI,
+                    signer
+                );
+
+                usdcContract = new ethers.Contract(
+                    CONFIG.USDC_ADDRESS,
+                    CONFIG.USDC_ABI,
+                    signer
+                );
+
+                // 更新UI
+                await updateWalletInfo();
+
+                // 检查是否已注册
+                await checkProviderStatus();
+
+                showMessage('钱包连接成功!', 'success');
+
+            } catch (error) {
+                console.error(error);
+                showMessage('连接失败: ' + error.message, 'error');
+            }
+        }
+
+        // 更新钱包信息
+        async function updateWalletInfo() {
+            document.getElementById('walletAddress').textContent = formatAddress(currentAccount);
+            document.getElementById('networkName').textContent = CONFIG.chainName;
+
+            // 获取USDC余额
+            const balance = await usdcContract.balanceOf(currentAccount);
+            const decimals = await usdcContract.decimals();
+            const formattedBalance = ethers.utils.formatUnits(balance, decimals);
+            document.getElementById('usdcBalance').textContent = `${parseFloat(formattedBalance).toFixed(2)} USDC`;
+        }
+
+        // 检查Provider状态
+        async function checkProviderStatus() {
+            try {
+                const info = await insuranceContract.getProviderInfo(currentAccount);
+                const isActive = info[4]; // isActive
+
+                if (isActive) {
+                    // 已注册，显示Provider信息
+                    const tierNames = ['None', 'Bronze', 'Silver', 'Gold', 'Platinum'];
+                    const tierEmojis = ['❌', '🥉', '🥈', '🥇', '💎'];
+                    const tier = info[3];
+
+                    document.getElementById('providerTier').textContent =
+                        `${tierEmojis[tier]} ${tierNames[tier]}`;
+                    document.getElementById('poolBalance').textContent =
+                        `${ethers.utils.formatUnits(info[0], 6)} USDC`;
+                    document.getElementById('availableBalance').textContent =
+                        `${ethers.utils.formatUnits(info[1], 6)} USDC`;
+                    document.getElementById('successRate').textContent =
+                        `${info[5].toString()}%`;
+
+                    document.getElementById('connectSection').classList.add('hidden');
+                    document.getElementById('registerSection').classList.add('hidden');
+                    document.getElementById('providerSection').classList.remove('hidden');
+                } else {
+                    // 未注册，显示注册界面
+                    document.getElementById('connectSection').classList.add('hidden');
+                    document.getElementById('registerSection').classList.remove('hidden');
+                    document.getElementById('providerSection').classList.add('hidden');
+                }
+            } catch (error) {
+                // 未注册
+                document.getElementById('connectSection').classList.add('hidden');
+                document.getElementById('registerSection').classList.remove('hidden');
+                document.getElementById('providerSection').classList.add('hidden');
+            }
+        }
+
+        // 授权USDC
+        async function approveUSDC() {
+            try {
+                const amount = document.getElementById('depositAmount').value;
+                if (amount < 100) {
+                    showMessage('最低充值金额为100 USDC', 'error');
+                    return;
+                }
+
+                showMessage('正在授权USDC...', 'info');
+
+                const amountWei = ethers.utils.parseUnits(amount, 6);
+                const tx = await usdcContract.approve(CONFIG.INSURANCE_ADDRESS, amountWei);
+
+                showMessage('等待交易确认...', 'info');
+                await tx.wait();
+
+                showMessage('授权成功! 请点击注册按钮', 'success');
+
+                document.getElementById('approveBtn').classList.add('hidden');
+                document.getElementById('registerBtn').classList.remove('hidden');
+
+            } catch (error) {
+                console.error(error);
+                showMessage('授权失败: ' + error.message, 'error');
+            }
+        }
+
+        // 注册并充值
+        async function registerAndDeposit() {
+            try {
+                const amount = document.getElementById('depositAmount').value;
+
+                showMessage('正在注册...', 'info');
+
+                const amountWei = ethers.utils.parseUnits(amount, 6);
+                const tx = await insuranceContract.registerAndDeposit(amountWei);
+
+                showMessage('等待交易确认...', 'info');
+                await tx.wait();
+
+                showMessage('🎉 注册成功! 您已成为认证Provider', 'success');
+
+                // 刷新状态
+                await checkProviderStatus();
+
+            } catch (error) {
+                console.error(error);
+                showMessage('注册失败: ' + error.message, 'error');
+            }
+        }
+
+        // 追加充值
+        async function topup() {
+            try {
+                const amount = document.getElementById('topupAmount').value;
+
+                showMessage('正在充值...', 'info');
+
+                const amountWei = ethers.utils.parseUnits(amount, 6);
+
+                // 先授权
+                const approveTx = await usdcContract.approve(CONFIG.INSURANCE_ADDRESS, amountWei);
+                await approveTx.wait();
+
+                // 再充值
+                const tx = await insuranceContract.deposit(amountWei);
+                await tx.wait();
+
+                showMessage('充值成功!', 'success');
+
+                // 刷新状态
+                await checkProviderStatus();
+
+            } catch (error) {
+                console.error(error);
+                showMessage('充值失败: ' + error.message, 'error');
+            }
+        }
+
+        // 事件监听
+        document.getElementById('connectBtn').addEventListener('click', connectWallet);
+
+        document.getElementById('disconnectBtn').addEventListener('click', () => {
+            currentAccount = null;
+            document.getElementById('connectSection').classList.remove('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('providerSection').classList.add('hidden');
+            showMessage('钱包已断开', 'info');
+        });
+
+        document.getElementById('approveBtn').addEventListener('click', approveUSDC);
+        document.getElementById('registerBtn').addEventListener('click', registerAndDeposit);
+        document.getElementById('topupBtn').addEventListener('click', topup);
+
+        // 金额快捷按钮
+        document.querySelectorAll('.amount-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const amount = btn.dataset.amount;
+                document.getElementById('depositAmount').value = amount;
+
+                document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+
+                updateTierBadge(parseInt(amount));
+            });
+        });
+
+        // 金额输入监听
+        document.getElementById('depositAmount').addEventListener('input', (e) => {
+            updateTierBadge(parseInt(e.target.value) || 0);
+        });
+
+        // 监听账户变化
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    currentAccount = null;
+                    document.getElementById('connectSection').classList.remove('hidden');
+                    document.getElementById('registerSection').classList.add('hidden');
+                    document.getElementById('providerSection').classList.add('hidden');
+                } else {
+                    currentAccount = accounts[0];
+                    updateWalletInfo();
+                    checkProviderStatus();
+                }
+            });
+
+            window.ethereum.on('chainChanged', () => {
+                window.location.reload();
+            });
+        }
+
+        // 页面加载时初始化
+        window.addEventListener('load', () => {
+            if (!CONFIG.INSURANCE_ADDRESS || CONFIG.INSURANCE_ADDRESS === '0x...') {
+                showMessage('⚠️ 请先部署合约并更新INSURANCE_ADDRESS', 'warning');
+            }
+        });
+    </script>
+</body>
+</html>
